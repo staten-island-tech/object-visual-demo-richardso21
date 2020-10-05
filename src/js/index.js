@@ -1,9 +1,12 @@
 const DOMSelectors = {
   container: document.querySelector(".container"),
+  resetBtn: document.querySelector(".reset-btn"),
+  fullBtn: document.querySelector(".full-btn"),
+  veggieBtn: document.querySelector(".veg-btn"),
+  stockBtn: document.querySelector(".stock-btn"),
 };
 
 const menu = [
-// `menu` is actually an array [] containing objects {}
   {
     name: "Pizza Slice",
     vegetarian: true,
@@ -70,22 +73,39 @@ const menu = [
   },
 ];
 
-function init() {
-  menu.forEach((el) => {
-  // since the `menu` object is an array [],
-  // we use the `forEach` method to iterate through
-  // every element in the array. (in this case, each element is an object {})
-  // in our callback function () => {}, we pass in `el`, which represents
-  // the current element (object {}) being iterated
-  // We can call the element's properties (`el.name`, `el.price`, etc.)
+function resetContainer() {
+  DOMSelectors.container.innerHTML = "";
+}
 
+function display(option = "") {
+  // remove all the items in the container before displaying
+  resetContainer();
+
+  // set `result` as a variable that will store our (potentially) filtered array
+  let result;
+  // check if the `display` function has an option parameter
+  switch (option) {
+    case "veggie":
+      // filter only items that are vegeterian if option=="veggie"
+      result = menu.filter((item) => item.vegetarian == true);
+      break;
+
+    case "stock":
+      // filter only items that are in stock if option=="stock"
+      result = menu.filter((item) => item.inStock == true);
+      break;
+
+    default:
+      // if no option parameter is passed, it defaults to keeping all items
+      // used by "full-btn" element
+      result = menu;
+      break;
+  }
+
+  // display filtered array onto html
+  result.forEach((el) => {
     DOMSelectors.container.insertAdjacentHTML(
-    // `DOMSelectors` is an object defined at the top
-    // `DOMSelectors.container` is our defined property we want to use
-
       "afterbegin",
-      // we insert the bottom HTML code right after the beginning of
-      // the `.container` element
       `
         <ul class="item-list">
           <li class="item-name item-value">${el.name}</li>
@@ -105,9 +125,27 @@ function init() {
           </li>
         </ul>
       `
-      // Ternary operators ==> (if this) ? (then do this) : (else do this)
     );
   });
 }
+
+function init() {
+  // Set DOM event listeners to every button using the `display()` function
+  // since this is the `init()` function, these event listeners are set
+  // everytime the webpage loads
+  DOMSelectors.fullBtn.addEventListener("click", () => {
+    display();
+  });
+  DOMSelectors.veggieBtn.addEventListener("click", () => {
+    display("veggie");
+  });
+  DOMSelectors.stockBtn.addEventListener("click", () => {
+    display("stock");
+  });
+  DOMSelectors.resetBtn.addEventListener("click", () => {
+    resetContainer();
+  });
+}
+
+// run `init()` function
 init();
-// making `init()` and executing it (runs everytime the page loads)

@@ -44,6 +44,13 @@ body {
 .item-image {
   height: 18rem;
 }
+
+.btns {
+  display: flex;
+  width: 80vw;
+  margin: auto;
+}
+
 .btn {
   border-radius: 2rem;
   padding: 1rem;
