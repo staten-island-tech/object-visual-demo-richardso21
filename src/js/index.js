@@ -87,12 +87,12 @@ function display(option = "") {
   switch (option) {
     case "veggie":
       // filter only items that are vegeterian if option=="veggie"
-      result = menu.filter((item) => item.vegetarian == true);
+      result = menu.filter((item) => item.vegetarian === true);
       break;
 
     case "stock":
       // filter only items that are in stock if option=="stock"
-      result = menu.filter((item) => item.inStock == true);
+      result = menu.filter((item) => item.inStock === true);
       break;
 
     default:
@@ -145,6 +145,9 @@ function init() {
   DOMSelectors.resetBtn.addEventListener("click", () => {
     resetContainer();
   });
+
+  // [optional] display all items at first
+  display();
 }
 
 // run `init()` function
